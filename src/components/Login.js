@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import commonService from "../Services/CommonService";
 import Alert from "./Alert";
 import Spinner from "./Spinner";
+import Header from "./Header";
 
 export default class Login extends React.Component {
 
@@ -13,7 +14,10 @@ export default class Login extends React.Component {
 		this.state = {
 			email: '',
 			password: '',
+			alertHeading: '',
+			alertMessage: '',
 			alert: false,
+			spinner: false,
 			loginSchema: Yup.object().shape({
 				email: Yup.string()
 					.email('Invalid email')
@@ -28,11 +32,19 @@ export default class Login extends React.Component {
 
 	}
 
-	alert(show) {
+	alert(show, alertContents) {
 		if (show)
 			this.setState({
-				alert: true
+				alert: true,
+				alertHeading: alertContents.status,
+				alertMessage: alertContents.error
 			})
+	}
+
+	spinner(show) {
+		this.setState({
+			spinner: show
+		})
 	}
 
 	handleSubmit = (values, {
@@ -49,8 +61,9 @@ export default class Login extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				<Spinner/>
-				{this.state.alert && <Alert />}
+				<Header/>
+				{this.state.spinner && <Spinner />}
+				{this.state.alert && <Alert headingContent={this.state.alertHeading} messageContent={this.state.alertMessage}/>}
 				<div className="tm-main uk-section uk-section-default">
 					<div className="uk-container uk-container-small">
 						<div className="tm-sidebar-right">
@@ -71,16 +84,18 @@ export default class Login extends React.Component {
 												initialValues={{ email: '', password: '' }}
 												validationSchema={this.state.loginSchema}
 												onSubmit={(values, { setSubmitting }) => {
+													this.spinner(true);
 													this.setState(() => ({
 														email: values.email,
 														password: values.password
 													}))
 													setSubmitting(false);
 													commonService.postData(values).then(loginData => {
-														localStorage.setItem('userData', loginData)
+														localStorage.setItem('userData', JSON.stringify(loginData));
+														this.spinner(false)
 													}).catch(error => {
-														console.log("test");
-														this.alert(true)
+														this.spinner(false)
+														this.alert(true, error)
 													});
 												}}
 											>

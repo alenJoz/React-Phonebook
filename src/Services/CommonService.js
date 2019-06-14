@@ -1,17 +1,20 @@
 let commonService = {
   postData: function (data) {
-    return new Promise((resolve, reject)=>{
-      setTimeout(() => {
-        console.log(111);
-        
-        reject();
-        // resolve({
-        //   id: Math.random(),
-        //   email: data.email
-        // })
-      }, 5000)
-  })
-}
+    return new Promise((resolve, reject) => {
+      if (data) {
+        setTimeout(() => {
+          resolve({
+            id: Math.floor(Math.random() * 10),
+            email: data.email
+          })
+        }, 5000)
+      } else
+        reject({
+          status: 'Error',
+          error: 'Login Failed'
+        });
+    })
+  }
 
 }
 
