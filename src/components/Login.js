@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 import commonService from "../Services/CommonService";
 import Alert from "./Alert";
 import Spinner from "./Spinner";
-import Header from "./Header";
 
 export default class Login extends React.Component {
 
@@ -61,7 +60,6 @@ export default class Login extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				<Header/>
 				{this.state.spinner && <Spinner />}
 				{this.state.alert && <Alert headingContent={this.state.alertHeading} messageContent={this.state.alertMessage}/>}
 				<div className="tm-main uk-section uk-section-default">
@@ -93,6 +91,7 @@ export default class Login extends React.Component {
 													commonService.postData(values).then(loginData => {
 														localStorage.setItem('userData', JSON.stringify(loginData));
 														this.spinner(false)
+														this.props.history.push('/home')
 													}).catch(error => {
 														this.spinner(false)
 														this.alert(true, error)
