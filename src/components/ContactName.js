@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
+import Avatar from "../images/avatar.jpg";
+import { Link } from "react-router-dom";
 
-import Avatar from '../images/avatar.jpg'
-const ContactName = (props) => {
+const ContactName = props => {
   return (
     <React.Fragment>
-      
       <li>
-        <a href="#">
+        <Link to={'/home/'+props.id}>
           <div className="uk-width-auto">
             <img
               className="uk-border-circle"
@@ -15,11 +15,11 @@ const ContactName = (props) => {
               src={Avatar}
             />
             {props.name}
-              </div>
-        </a>
+          </div>
+          </Link>
       </li>
     </React.Fragment>
-  )
-}
+  );
+};
 
 export default ContactName;

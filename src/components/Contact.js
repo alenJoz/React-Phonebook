@@ -28,9 +28,9 @@ const Contact = (props) => {
         sortedContactList.map((contact, index) => {
           const firstLetter = getFirstLetter(contact.name)
           return (
-            <React.Fragment>
+            <React.Fragment key={index}>
               {renderTitle(firstLetter)}
-              <ContactName key={index} name={contact.name} />
+              <ContactName name={contact.name} id={contact.id} />
             </React.Fragment>)
         })
 

@@ -1,27 +1,38 @@
-import React from 'react';
-import mockData from '../Services/MockData'
-import commonService from '../Services/CommonService'
-import Contact from './Contact';
+import React from "react";
+import mockData from "../Services/MockData";
+import Contact from "./Contact";
+import SearchContact from "./SearchContact";
 
-const SideBar = ()=>{
-  console.log(mockData.contacts.sort(commonService.compare));
+export default class SideBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      contactList: []
+    };
+    this.setContactList = this.setContactList.bind(this)
+  }
+
+  componentDidMount() {
+    this.setContactList(mockData.contacts);
+  }
+
+  setContactList(contacts) {
+    this.setState({
+      contactList: contacts
+    });
+  }
+
+  render() {
     return (
-        <aside className="tm-sidebar-left uk-visible@l">
+      <aside className="tm-sidebar-left uk-visible@l">
         <div className="fixed-serch">
           <h3>Contacts</h3>
-  
-          <div className="uk-margin">
-            <form className="uk-search uk-search-default uk-search-medium">
-              <span data-uk-search-icon></span>
-              <input
-                className="uk-search-input"
-                type="search"
-                placeholder="Search Contacts..."
-              />
-            </form>
-          </div>
+          <SearchContact
+            setContactList={this.setContactList}
+            contacts={this.state.contactList}
+          />
         </div>
-  
+
         <div className="a-list">
           <a href="#a">A</a>
           <a href="#b">B</a>
@@ -50,13 +61,9 @@ const SideBar = ()=>{
           <a href="#y">Y</a>
           <a href="#z">Z</a>
         </div>
-  
-        {/* <ul className="uk-nav uk-nav-default tm-nav  uk-list-divider"> */}
-        <Contact contacts = { mockData.contacts }/>
-  
-        {/* </ul> */}
-      </aside>
-    )
-}
 
-export default SideBar;
+        <Contact contacts={this.state.contactList} />
+      </aside>
+    );
+  }
+}

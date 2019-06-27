@@ -1,17 +1,16 @@
-import React from 'react';
+import React from "react";
 import Header from "./Header";
 import SideBar from "./SideBar";
-import Content from "./Content";
+import AddButton from "./AddButton";
 
 const Home = () => {
   return (
     <React.Fragment>
       <Header />
       <SideBar />
-      <Content />
-
+      <AddButton />
     </React.Fragment>
-  )
-}
+  );
+};
 
 export default Home;
