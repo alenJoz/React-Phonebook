@@ -7,25 +7,25 @@ export default class SearchContact extends React.Component {
       searchArray: []
     };
     this.handleSearch = this.handleSearch.bind(this);
-    this.searchFilter = this.searchFilter.bind(this);
   }
 
   handleSearch(event) {
+    let searchTerm = event.target.value;
     if (this.state.searchArray.length === 0) {
-      this.setState({
-        searchArray: [...this.props.contacts]
-      });
-      this.searchFilter(event);
-    } else this.searchFilter(event);
+      this.setState(
+        {
+          searchArray: [...this.props.contacts]
+        },
+        () => this.searchFilter(searchTerm)
+      );
+    } else this.searchFilter(searchTerm);
   }
 
-  searchFilter(event) {
+  searchFilter(searchTerm) {
     var updatedArray = [...this.state.searchArray];
 
     updatedArray = updatedArray.filter(function(item) {
-      return (
-        item.name.toLowerCase().search(event.target.value.toLowerCase()) !== -1
-      );
+      return item.name.toLowerCase().search(searchTerm.toLowerCase()) !== -1;
     });
     this.props.setContactList(updatedArray);
   }
